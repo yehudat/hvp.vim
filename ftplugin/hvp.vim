@@ -59,7 +59,10 @@ function! s:HvpPreview(bang) abort
         vnew
     endif
     setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
+    setlocal nonumber norelativenumber signcolumn=no
     let b:hvp_preview = 1
+    let b:indentLine_enabled = 0
+    if exists(':IBLDisable') == 2 | IBLDisable | endif
     let l:shell_cmd = [&shell, &shellcmdflag, l:cmd]
     if has('nvim')
         call termopen(l:shell_cmd)
