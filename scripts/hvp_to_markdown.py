@@ -16,7 +16,6 @@ import argparse
 import importlib.util
 import json
 import sys
-from datetime import date
 from pathlib import Path
 
 
@@ -47,40 +46,9 @@ def load_data(args) -> dict:
 # Renderers
 # ---------------------------------------------------------------------------
 
-def render_document_info(data: dict, args) -> str:
-    meta = data["metadata"]
-    title = args.title or meta.get("title", meta.get("plan_name", "Verification Plan"))
-    owner = args.owner or "<owner's name>"
-    version = args.version or "0.0.1"
-
-    return f"""## Document Information
-
-| Field | Value |
-|---|---|
-| **Document Title** | {title} |
-| **Project** | <project> |
-| **Block / DUT** | {plan_name} |
-| **Specification Ref** | RS: TBD |
-| **Version** | {version} |
-| **Status** | Active Development |
-| **Owner** | {owner} |"""
-
-
-def render_revision_history(args) -> str:
-    version = args.version or "0.1.0"
-    today = date.today().strftime("%B %Y")
-    return f"""## Revision History
-
-| Version | Author | Date | Description |
-|---|---|---|---|
-| {version} | {plan_name} | {today} | Initial HVP publication |"""
-
-
 def render_overview(data: dict) -> str:
-    meta = data["metadata"]
     stats = data["stats"]
-    plan_name = meta.get("plan_name", "verification_plan")
-    compliance = meta.get("compliance", "")
+    plan_name = data["metadata"].get("plan_name", "verification_plan")
 
     req_summary = ", ".join(
         f"{count} {prefix}" for prefix, count in sorted(stats["req_counts"].items())
@@ -90,13 +58,7 @@ def render_overview(data: dict) -> str:
 
     return f"""## Overview
 
-This Hierarchical Verification Plan (HVP) defines the verification strategy for the \
-`{plan_name}` block. The plan is structured in accordance with Synopsys HVP architectural \
-hierarchy, mapping requirements to verification features, test cases, and coverage \
-points. The HVP is machine-parseable by Synopsys Verdi for plan tracking and metric \
-aggregation.
-
-**Plan summary**: {stats['total_features']} features, {stats['total_measures']} measures, \
+**{plan_name}**: {stats['total_features']} features, {stats['total_measures']} measures, \
 {req_summary} requirements."""
 
 
@@ -229,10 +191,8 @@ def render_filters(data: dict) -> str:
 # Assembly
 # ---------------------------------------------------------------------------
 
-def assemble_page(data: dict, args) -> str:
+def assemble_page(data: dict) -> str:
     sections = [
-        render_document_info(data, args),
-        render_revision_history(args),
         render_overview(data),
         render_metrics_table(data),
         render_milestone_overrides(data),
@@ -258,9 +218,6 @@ def main() -> None:
     group.add_argument("--file", help="Path to the .hvp file (parses directly)")
     group.add_argument("--json", help="Path to pre-parsed JSON from parse_hvp.py")
     parser.add_argument("--output", help="Write markdown to file instead of stdout")
-    parser.add_argument("--title", help="Override document title")
-    parser.add_argument("--owner", help="Override owner field")
-    parser.add_argument("--version", default="0.e.0", help="Document version (default 0.0.0)")
     args = parser.parse_args()
 
     if args.file and not Path(args.file).is_file():
@@ -268,7 +225,7 @@ def main() -> None:
         sys.exit(1)
 
     data = load_data(args)
-    md = assemble_page(data, args)
+    md = assemble_page(data)
 
     if args.output:
         Path(args.output).write_text(md + "\n", encoding="utf-8")
