@@ -65,9 +65,11 @@ function! s:HvpPreview(bang) abort
     else
         execute 'terminal ++curwin ++shell' l:cmd
     endif
-    setlocal nonumber norelativenumber signcolumn=no nolist
+    setlocal nonumber norelativenumber signcolumn=no
     let b:hvp_preview = 1
-    let b:indentLine_enabled = 0
+    if exists(':IndentLinesDisable') == 2
+        IndentLinesDisable
+    endif
     if exists(':IBLDisable') == 2
         IBLDisable
     endif
