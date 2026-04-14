@@ -27,7 +27,9 @@ function! s:GlowPreview(file) abort
     setlocal nonumber norelativenumber signcolumn=no
     let b:hvp_preview = 1
     let b:indentLine_enabled = 0
-    if exists(':IBLDisable') == 2 | IBLDisable | endif
+    if exists(':IBLDisable') == 2
+        IBLDisable
+    endif
     let l:cmd = 'glow - < ' . shellescape(a:file)
     if has('nvim')
         call termopen(l:cmd)
