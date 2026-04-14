@@ -5,8 +5,6 @@ Verification Plan) files. Provides syntax highlighting, code folding, block navi
 comment toggling, and a live preview rendered through
 [glow](https://github.com/charmbracelet/glow).
 
-![Syntax Highlighting](screenshots/syntax-highlighting.png)
-
 ## Features
 
 | Feature | Description |
@@ -22,9 +20,7 @@ comment toggling, and a live preview rendered through
 
 `:HvpPreview` parses the HVP file into a structured markdown document (document info,
 metrics, milestone overrides, plan hierarchy, regression filters) and renders it through
-glow in a vertical split:
-
-![HVP Preview](screenshots/hvp-preview.png)
+glow in a vertical split.
 
 ## Requirements
 
