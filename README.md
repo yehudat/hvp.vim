@@ -24,6 +24,8 @@ comment toggling, and a live preview rendered through
 metrics, milestone overrides, plan hierarchy, regression filters) and renders it through
 glow in a vertical split.
 
+![HvpPreview output](screenshots/preview.png)
+
 ## Requirements
 
 - Vim 8+ or Neovim 0.9+
