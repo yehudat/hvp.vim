@@ -5,6 +5,8 @@ Verification Plan) files. Provides syntax highlighting, code folding, block navi
 comment toggling, and a live preview rendered through
 [glow](https://github.com/charmbracelet/glow).
 
+![Syntax Highlighting](screenshots/syntax-highlighting.png)
+
 ## Features
 
 | Feature | Description |
