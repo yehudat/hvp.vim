@@ -35,7 +35,7 @@ if exists('loaded_matchit') || exists('g:loaded_matchup')
 endif
 
 " --- HVP Preview: render as markdown via glow in a terminal split ---
-let s:hvp_converter = expand('~/.claude/skills/confluence-deploy/scripts/hvp_to_confluence_page_format.py')
+let s:hvp_converter = expand('<sfile>:p:h:h') . '/scripts/hvp_to_markdown.py'
 
 function! s:HvpPreview(bang) abort
     let l:hvp_file = expand('%:p')
