@@ -24,17 +24,17 @@ function! s:GlowPreview(file) abort
     endfor
     vnew
     setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
-    setlocal nonumber norelativenumber signcolumn=no
-    let b:hvp_preview = 1
-    let b:indentLine_enabled = 0
-    if exists(':IBLDisable') == 2
-        IBLDisable
-    endif
     let l:cmd = 'glow - < ' . shellescape(a:file)
     if has('nvim')
         call termopen(l:cmd)
     else
         execute 'terminal ++curwin' l:cmd
+    endif
+    setlocal nonumber norelativenumber signcolumn=no nolist
+    let b:hvp_preview = 1
+    let b:indentLine_enabled = 0
+    if exists(':IBLDisable') == 2
+        IBLDisable
     endif
     setlocal nomodifiable
     wincmd p
