@@ -60,10 +60,11 @@ function! s:HvpPreview(bang) abort
     endif
     setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted
     let b:hvp_preview = 1
+    let l:shell_cmd = [&shell, &shellcmdflag, l:cmd]
     if has('nvim')
-        call termopen(l:cmd)
+        call termopen(l:shell_cmd)
     else
-        execute 'terminal ++curwin' l:cmd
+        execute 'terminal ++curwin ++shell' l:cmd
     endif
     setlocal nomodifiable
     wincmd p
