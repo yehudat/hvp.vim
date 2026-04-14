@@ -44,8 +44,8 @@ function! s:HvpPreview(bang) abort
         return
     endif
     write
-    let l:cmd = 'python3 ' . shellescape(s:hvp_converter)
-        \ . ' --file ' . shellescape(l:hvp_file)
+    let l:cmd = 'python3 "' . s:hvp_converter . '"'
+        \ . ' --file "' . l:hvp_file . '"'
         \ . ' | glow -'
     " Close any existing preview buffer
     for l:buf in getbufinfo({'bufloaded': 1})
